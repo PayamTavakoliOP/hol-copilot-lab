@@ -1,0 +1,17 @@
+name: "CodeQL Config"
+
+paths:
+  - "eCommApp/src"
+  - "eCommApp/*.ts"
+  - "eCommApp/*.tsx"
+  - "eCommApp/*.js"
+  - "eCommApp/*.jsx"
+
+paths-ignore:
+  - "eCommApp/node_modules"
+  - "eCommApp/dist"
+  - "eCommApp/coverage"
+  - "**/*.test.ts"
+  - "**/*.test.tsx"
+  - "**/*.spec.ts"
+  - "**/*.spec.tsx"
