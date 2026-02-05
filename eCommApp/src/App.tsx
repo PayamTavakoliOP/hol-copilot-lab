@@ -5,6 +5,7 @@ import LoginPage from './components/LoginPage';
 import AdminPage from './components/AdminPage';
 import CartPage from './components/CartPage';
 import MemeButton from './components/MemeButton';
+import AboutPage from './components/AboutPage';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { CartProvider } from './context/CartContext';
 import './App.css';
@@ -22,6 +23,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/products" element={<ProductsPage />} />
+                    <Route path="/about" element={<AboutPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     <Route path="/admin" element={<AdminPage />} />
                     <Route path="/cart" element={<CartPage />} />
