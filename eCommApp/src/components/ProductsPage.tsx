@@ -60,7 +60,7 @@ const ProductsPage = () => {
         return (
             <div className="app">
                 <Header />
-                <main className="main-content">
+                <main id="main-content" className="main-content" aria-live="polite" aria-busy="true">
                     <div className="loading">Loading products...</div>
                 </main>
                 <Footer />
@@ -71,23 +71,30 @@ const ProductsPage = () => {
     return (
         <div className="app">
             <Header />
-            <main className="main-content">
+            <main id="main-content" className="main-content">
                 <div className="products-container">
                     <h2>Our Products</h2>
                     <div className="products-grid">
                         {products.map((product) => (
-                            <div key={product.id || product.name} className="product-card">
+                            <article key={product.id || product.name} className="product-card">
                                 {product.image && (
-                                    <img
-                                        src={`products/productImages/${product.image}`}
-                                        alt={product.name}
-                                        className="product-image"
+                                    <button
+                                        className="product-image-button"
                                         onClick={() => setSelectedProduct(product)}
-                                    />
+                                        aria-label={`View reviews for ${product.name}`}
+                                    >
+                                        <img
+                                            src={`products/productImages/${product.image}`}
+                                            alt={`${product.name} - ${product.description || 'Fresh produce'}`}
+                                            className="product-image"
+                                        />
+                                    </button>
                                 )}
                                 <div className="product-info">
                                     <h3 className="product-name">{product.name}</h3>
-                                    <p className="product-price">${product.price.toFixed(2)}</p>
+                                    <p className="product-price" aria-label={`Price: $${product.price.toFixed(2)}`}>
+                                        ${product.price.toFixed(2)}
+                                    </p>
                                     {product.description && (
                                         <p className="product-description">{product.description}</p>
                                     )}
@@ -95,11 +102,12 @@ const ProductsPage = () => {
                                         onClick={() => addToCart(product)}
                                         className={`add-to-cart-btn ${product.inStock ? '' : 'disabled'}`}
                                         disabled={!product.inStock}
+                                        aria-label={product.inStock ? `Add ${product.name} to cart` : `${product.name} is out of stock`}
                                     >
                                         {product.inStock ? 'Add to Cart' : 'Out of Stock'}
                                     </button>
                                 </div>
-                            </div>
+                            </article>
                         ))}
                     </div>
                 </div>

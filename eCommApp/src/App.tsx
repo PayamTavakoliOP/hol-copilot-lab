@@ -10,6 +10,9 @@ import './App.css';
 function App() {
     return (
         <CartProvider>
+            <a href="#main-content" className="skip-link">
+                Skip to main content
+            </a>
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/products" element={<ProductsPage />} />

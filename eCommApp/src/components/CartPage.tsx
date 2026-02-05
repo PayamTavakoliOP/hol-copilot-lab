@@ -31,19 +31,23 @@ const CartPage = () => {
         return (
             <div className="app">
                 <Header />
-                <main className="main-content">
-                    <div className="order-processed-container">
-                        <h2>Your order has been processed!</h2>
+                <main id="main-content" className="main-content">
+                    <div className="order-processed-container" role="region" aria-labelledby="order-confirmation-heading">
+                        <h2 id="order-confirmation-heading">Your order has been processed!</h2>
                         <div className="cart-items-grid">
                             {processedItems.map(item => (
-                                <div key={item.id} className="cart-item-card">
-                                    <img src={`products/productImages/${item.image}`} alt={item.name} className="cart-item-image" />
+                                <article key={item.id} className="cart-item-card">
+                                    <img 
+                                        src={`products/productImages/${item.image}`} 
+                                        alt={`${item.name} - ordered item`}
+                                        className="cart-item-image" 
+                                    />
                                     <div className="cart-item-info">
                                         <h3>{item.name}</h3>
                                         <p>Price: ${item.price.toFixed(2)}</p>
                                         <p>Quantity: {item.quantity}</p>
                                     </div>
-                                </div>
+                                </article>
                             ))}
                         </div>
                     </div>
@@ -56,26 +60,36 @@ const CartPage = () => {
     return (
         <div className="app">
             <Header />
-            <main className="main-content">
+            <main id="main-content" className="main-content">
                 <div className="cart-container">
                     <h2>Your Cart</h2>
                     {cartItems.length === 0 ? (
                         <p>Your cart is empty.</p>
                     ) : (
                         <>
-                            <div className="cart-items-grid">
+                            <div className="cart-items-grid" role="list" aria-label="Cart items">
                                 {cartItems.map(item => (
-                                    <div key={item.id} className="cart-item-card">
-                                        <img src={`products/productImages/${item.image}`} alt={item.name} className="cart-item-image" />
+                                    <article key={item.id} className="cart-item-card" role="listitem">
+                                        <img 
+                                            src={`products/productImages/${item.image}`} 
+                                            alt={`${item.name} in cart`}
+                                            className="cart-item-image" 
+                                        />
                                         <div className="cart-item-info">
                                             <h3>{item.name}</h3>
                                             <p>Price: ${item.price.toFixed(2)}</p>
                                             <p>Quantity: {item.quantity}</p>
                                         </div>
-                                    </div>
+                                    </article>
                                 ))}
                             </div>
-                            <button onClick={handleCheckout} className="checkout-btn">Checkout</button>
+                            <button 
+                                onClick={handleCheckout} 
+                                className="checkout-btn"
+                                aria-label={`Checkout ${cartItems.length} item${cartItems.length > 1 ? 's' : ''}`}
+                            >
+                                Checkout
+                            </button>
                         </>
                     )}
                 </div>

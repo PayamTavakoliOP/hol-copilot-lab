@@ -5,8 +5,8 @@ const HomePage = () => {
     return (
         <div className="app">
             <Header />
-            <main className="main-content">
-                <p><h2>Welcome to the The Daily Harvest!</h2></p>
+            <main id="main-content" className="main-content">
+                <h2>Welcome to The Daily Harvest!</h2>
                 <p>Check out our products page for some great deals.</p>
             </main>
             <Footer />

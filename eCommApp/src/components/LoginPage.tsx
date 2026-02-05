@@ -24,28 +24,43 @@ const LoginPage = () => {
     return (
         <div className="app">
             <Header />
-            <main className="main-content">
+            <main id="main-content" className="main-content">
                 <div className="login-container">
                     <h2>Admin Login</h2>
-                    {/* Let's make sure we switch the default admin credentials away from 'admin'/'admin' to something more secure */}
-                    <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', maxWidth: 300 }}>
-                        <input
-                            type="text"
-                            placeholder="Username"
-                            value={username}
-                            onChange={e => setUsername(e.target.value)}
-                            style={{ marginBottom: '1rem', padding: '0.5rem' }}
-                            autoFocus
-                        />
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            value={password}
-                            onChange={e => setPassword(e.target.value)}
-                            style={{ marginBottom: '1rem', padding: '0.5rem' }}
-                        />
-                        <button type="submit" style={{ padding: '0.5rem' }}>Login</button>
-                        {loginError && <p style={{ color: 'red', marginTop: '1rem' }}>{loginError}</p>}
+                    <form onSubmit={handleLogin}>
+                        <div className="form-group">
+                            <label htmlFor="username">Username</label>
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                value={username}
+                                onChange={e => setUsername(e.target.value)}
+                                autoFocus
+                                required
+                                aria-required="true"
+                                aria-invalid={loginError ? 'true' : 'false'}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="password">Password</label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                value={password}
+                                onChange={e => setPassword(e.target.value)}
+                                required
+                                aria-required="true"
+                                aria-invalid={loginError ? 'true' : 'false'}
+                            />
+                        </div>
+                        <button type="submit">Login</button>
+                        {loginError && (
+                            <p role="alert" aria-live="polite" className="error-message">
+                                {loginError}
+                            </p>
+                        )}
                     </form>
                 </div>
             </main>
