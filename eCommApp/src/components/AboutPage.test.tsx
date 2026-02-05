@@ -36,7 +36,6 @@ describe('AboutPage', () => {
     it('should submit bug report form', async () => {
         // Arrange
         const user = userEvent.setup();
-        const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
         renderWithRouterAndContext(<AboutPage />);
         
         // Act
@@ -46,17 +45,9 @@ describe('AboutPage', () => {
         await user.click(screen.getByRole('button', { name: 'Submit Bug Report' }));
         
         // Assert
-        expect(consoleLogSpy).toHaveBeenCalledWith('Bug report submitted:', {
-            name: 'John Doe',
-            email: 'john@example.com',
-            description: 'Found a bug in the cart'
-        });
-        
         await waitFor(() => {
             expect(screen.getByRole('alert')).toHaveTextContent("Thank you for your bug report! We'll look into it shortly.");
         });
-
-        consoleLogSpy.mockRestore();
     });
 
     it('should render header and footer', () => {

@@ -40,7 +40,12 @@ export const renderWithRouterAndContext = (
   };
 
   const renderResult = render(
-    <BrowserRouter>
+    <BrowserRouter
+      future={{
+        v7_startTransition: true,
+        v7_relativeSplatPath: true,
+      }}
+    >
       <CartContext.Provider value={providerValue}>
         {ui}
       </CartContext.Provider>
