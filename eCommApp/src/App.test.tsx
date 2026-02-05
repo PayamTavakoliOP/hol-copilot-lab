@@ -91,6 +91,18 @@ describe('App', () => {
     expect(screen.getByRole('heading', { name: 'Your Cart' })).toBeInTheDocument();
   });
 
+  it('should render AboutPage at /about path', () => {
+    // Arrange & Act
+    render(
+      <MemoryRouter initialEntries={['/about']}>
+        <App />
+      </MemoryRouter>
+    );
+    
+    // Assert
+    expect(screen.getByRole('heading', { name: 'About The Daily Harvest' })).toBeInTheDocument();
+  });
+
   it('should wrap routes with CartProvider', () => {
     // Arrange & Act
     render(
