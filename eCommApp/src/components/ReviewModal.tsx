@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Product, Review } from '../types';
 
 interface ReviewModalProps {
@@ -10,6 +10,7 @@ interface ReviewModalProps {
 const ReviewModal = ({ product, onClose, onSubmit }: ReviewModalProps) => {
     const closeButtonRef = useRef<HTMLButtonElement>(null);
     const modalRef = useRef<HTMLDivElement>(null);
+    const [rating, setRating] = useState(0);
 
     useEffect(() => {
         if (product) {
@@ -55,10 +56,15 @@ const ReviewModal = ({ product, onClose, onSubmit }: ReviewModalProps) => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const author = (e.currentTarget.elements.namedItem('author') as HTMLInputElement).value;
-        const comment = (e.currentTarget.elements.namedItem('comment') as HTMLTextAreaElement).value;
-        onSubmit({ author, comment, date: new Date().toISOString() });
-        e.currentTarget.reset();
+        const form = e.currentTarget;
+        const author = (form.elements.namedItem('author') as HTMLInputElement).value;
+        const comment = (form.elements.namedItem('comment') as HTMLTextAreaElement).value;
+        
+        if (author && comment && rating > 0) {
+            onSubmit({ author, comment, rating, date: new Date().toISOString() });
+            form.reset();
+            setRating(0);
+        }
     };
 
     return (
@@ -85,7 +91,7 @@ const ReviewModal = ({ product, onClose, onSubmit }: ReviewModalProps) => {
                 </button>
                 <h2 id="review-modal-title">Reviews for {product.name}</h2>
                 <div className="reviews-list" role="region" aria-label="Product reviews">
-                    {product.reviews.length > 0 ? (
+                    {product.reviews && product.reviews.length > 0 ? (
                         product.reviews.map((review, index) => (
                             <div key={index} className="review">
                                 <p><strong>{review.author}</strong> ({new Date(review.date).toLocaleDateString()}):</p>
@@ -114,8 +120,25 @@ const ReviewModal = ({ product, onClose, onSubmit }: ReviewModalProps) => {
                         placeholder="Your review" 
                         required 
                         aria-required="true"
-                    />
-                    <button type="submit">Submit Review</button>
+                    ></textarea>
+                    <div className="rating-group" role="radiogroup" aria-labelledby="rating-label">
+                        <span id="rating-label">Rating:</span>
+                        {[5, 4, 3, 2, 1].map(star => (
+                            <label key={star} className="star-label" title={`${star} stars`}>
+                                <input 
+                                    type="radio" 
+                                    name="rating" 
+                                    value={star} 
+                                    className="visually-hidden" 
+                                    onChange={() => setRating(star)}
+                                    checked={rating === star}
+                                    required
+                                />
+                                <span aria-hidden="true" style={{ color: star <= rating ? 'gold' : 'grey' }}>★</span>
+                            </label>
+                        ))}
+                    </div>
+                    <button type="submit" className="modal-button">Submit Review</button>
                 </form>
             </div>
         </div>

@@ -32,9 +32,10 @@ const ProductsPage = () => {
                     return await response.json();
                 });
                 const loadedProducts = await Promise.all(productPromises);
-                setProducts(loadedProducts);
+                setProducts(loadedProducts.filter(p => p)); // Filter out any nulls from failed fetches
             } catch (error) {
                 console.error('Error loading products:', error);
+                setProducts([]); // Clear products on error
             } finally {
                 setLoading(false);
             }
@@ -61,7 +62,7 @@ const ProductsPage = () => {
             <div className="app">
                 <Header />
                 <main id="main-content" className="main-content" aria-live="polite" aria-busy="true">
-                    <div className="loading">Loading products...</div>
+                    <div className="loading" role="status">Loading products...</div>
                 </main>
                 <Footer />
             </div>
@@ -74,50 +75,51 @@ const ProductsPage = () => {
             <main id="main-content" className="main-content">
                 <div className="products-container">
                     <h2>Our Products</h2>
-                    <div className="products-grid">
-                        {products.map((product) => (
-                            <article key={product.id || product.name} className="product-card">
-                                {product.image && (
-                                    <button
-                                        className="product-image-button"
-                                        onClick={() => setSelectedProduct(product)}
-                                        aria-label={`View reviews for ${product.name}`}
-                                    >
-                                        <img
-                                            src={`products/productImages/${product.image}`}
-                                            alt={`${product.name} - ${product.description || 'Fresh produce'}`}
-                                            className="product-image"
-                                        />
-                                    </button>
-                                )}
-                                <div className="product-info">
-                                    <h3 className="product-name">{product.name}</h3>
-                                    <p className="product-price" aria-label={`Price: $${product.price.toFixed(2)}`}>
-                                        ${product.price.toFixed(2)}
-                                    </p>
-                                    {product.description && (
-                                        <p className="product-description">{product.description}</p>
+                    {products.length === 0 && !loading ? (
+                        <p>Error loading products</p>
+                    ) : (
+                        <div className="products-grid">
+                            {products.map((product) => (
+                                <article key={product.id || product.name} className="product-card">
+                                    {product.image && (
+                                        <button
+                                            className="product-image-button"
+                                            onClick={() => setSelectedProduct(product)}
+                                            aria-label={`View reviews for ${product.name}`}
+                                        >
+                                            <img
+                                                src={`products/productImages/${product.image}`}
+                                                alt={`${product.name} - ${product.description || 'Fresh produce'}`}
+                                                className="product-image"
+                                            />
+                                        </button>
                                     )}
-                                    <button 
-                                        onClick={() => addToCart(product)}
-                                        className={`add-to-cart-btn ${product.inStock ? '' : 'disabled'}`}
-                                        disabled={!product.inStock}
-                                        aria-label={product.inStock ? `Add ${product.name} to cart` : `${product.name} is out of stock`}
-                                    >
-                                        {product.inStock ? 'Add to Cart' : 'Out of Stock'}
-                                    </button>
-                                </div>
-                            </article>
-                        ))}
-                    </div>
+                                    <div className="product-info">
+                                        <h3 className="product-name">{product.name}</h3>
+                                        <p className="product-price" aria-label={`Price: $${product.price.toFixed(2)}`}>
+                                            ${product.price.toFixed(2)}
+                                        </p>
+                                        {product.description && (
+                                            <p className="product-description">{product.description}</p>
+                                        )}
+                                        <button onClick={() => addToCart(product)} className="add-to-cart-btn">
+                                            Add to Cart
+                                        </button>
+                                    </div>
+                                </article>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </main>
             <Footer />
-            <ReviewModal
-                product={selectedProduct}
-                onClose={() => setSelectedProduct(null)}
-                onSubmit={handleReviewSubmit}
-            />
+            {selectedProduct && (
+                <ReviewModal
+                    product={selectedProduct}
+                    onClose={() => setSelectedProduct(null)}
+                    onSubmit={handleReviewSubmit}
+                />
+            )}
         </div>
     );
 };

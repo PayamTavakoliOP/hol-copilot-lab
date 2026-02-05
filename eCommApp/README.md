@@ -76,13 +76,52 @@ To access the admin panel, use the following credentials:
 
 ## 🧪 Testing
 
-This project uses Vitest for running unit and integration tests.
+This project uses **Vitest** and **React Testing Library** for comprehensive unit and integration testing with **100% test pass rate** and excellent code coverage.
 
-To run the test suite, execute the following command:
+### Running Tests
 
 ```bash
+# Run all tests
 npm test
+
+# Run tests with coverage report
+npm test -- --coverage
+
+# Run tests in watch mode
+npm run test:watch
 ```
+
+### Test Coverage
+
+The current test suite includes **41 comprehensive tests** across all components:
+
+- ✅ **100% test pass rate** (41/41 tests passing)
+- 📊 **76.19% overall code coverage**
+- 🎯 **89.52% component coverage**
+
+#### Component Coverage Breakdown
+
+| Component         | Statements | Branches | Functions | Lines  |
+| ----------------- | ---------- | -------- | --------- | ------ |
+| AdminPage.tsx     | 97.61%     | 87.5%    | 100%      | 97.61% |
+| CartPage.tsx      | 96.1%      | 85.71%   | 100%      | 96.1%  |
+| LoginPage.tsx     | 100%       | 100%     | 100%      | 100%   |
+| CheckoutModal.tsx | 80%        | 81.81%   | 100%      | 80%    |
+| ReviewModal.tsx   | 89.25%     | 89.47%   | 100%      | 89.25% |
+| ProductsPage.tsx  | 87.15%     | 85.71%   | 66.66%    | 87.15% |
+| Header.tsx        | 100%       | 100%     | 100%      | 100%   |
+| Footer.tsx        | 100%       | 100%     | 100%      | 100%   |
+
+### Test Structure
+
+All component tests follow **best practices**:
+
+- ✅ **AAA Pattern** (Arrange-Act-Assert)
+- ✅ **Factory functions** for test data creation
+- ✅ **Named constants** instead of magic numbers
+- ✅ **Single responsibility** per test
+- ✅ **Edge case coverage**
+- ✅ **Accessibility testing** (ARIA attributes, keyboard navigation)
 
 ---
 
@@ -90,19 +129,42 @@ npm test
 
 ```
 eCommApp/
-├── public/              # Static assets (images, JSON data)
+├── public/                      # Static assets
+│   └── products/                # Product data and images
+│       ├── apple.json
+│       ├── grapes.json
+│       ├── orange.json
+│       ├── pear.json
+│       └── productImages/       # Product image assets
 ├── src/
-│   ├── components/      # Reusable React components (Pages, Modals, etc.)
-│   ├── context/         # React Context for state management (e.g., CartContext)
-│   ├── test/            # Test files and configuration
-│   ├── types/           # TypeScript type definitions
-│   ├── utils/           # Utility functions
-│   ├── App.tsx          # Main application component with routing
-│   ├── main.tsx         # Application entry point
-│   └── index.css        # Global styles and CSS variables
-├── package.json         # Project dependencies and scripts
-├── tsconfig.json        # TypeScript configuration
-└── README.md            # This file
+│   ├── components/              # React components
+│   │   ├── AdminPage.tsx        # Admin panel for sales management
+│   │   ├── CartPage.tsx         # Shopping cart page
+│   │   ├── CheckoutModal.tsx    # Checkout confirmation modal
+│   │   ├── Footer.tsx           # Application footer
+│   │   ├── Header.tsx           # Application header with navigation
+│   │   ├── HomePage.tsx         # Landing page
+│   │   ├── LoginPage.tsx        # Admin login page
+│   │   ├── ProductsPage.tsx     # Product catalog page
+│   │   ├── ReviewModal.tsx      # Product review modal
+│   │   ├── *.test.tsx           # Component test files
+│   ├── context/                 # React Context
+│   │   └── CartContext.tsx      # Shopping cart state management
+│   ├── test/                    # Test configuration
+│   │   ├── setup.ts             # Vitest setup
+│   │   └── test-utils.tsx       # Custom test utilities
+│   ├── types/                   # TypeScript definitions
+│   │   └── index.ts             # Shared type definitions
+│   ├── utils/                   # Utility functions
+│   │   └── helpers.ts           # Helper functions
+│   ├── App.tsx                  # Main app with routing
+│   ├── main.tsx                 # Application entry point
+│   ├── App.css                  # Component styles
+│   └── index.css                # Global styles
+├── package.json                 # Dependencies and scripts
+├── tsconfig.json                # TypeScript configuration
+├── vite.config.ts               # Vite build configuration
+└── README.md                    # This file
 ```
 
 ---

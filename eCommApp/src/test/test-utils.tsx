@@ -1,23 +1,66 @@
-import { render, RenderOptions } from '@testing-library/react'
-import { ReactElement } from 'react'
-import { BrowserRouter } from 'react-router-dom'
-import { CartProvider } from '../context/CartContext'
+import { render, RenderOptions } from '@testing-library/react';
+import { ReactElement } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { CartContext, CartContextType, CartItem } from '../context/CartContext';
+import { vi } from 'vitest';
 
-// Custom render function that includes providers
-const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <BrowserRouter>
-      <CartProvider>
-        {children}
-      </CartProvider>
-    </BrowserRouter>
-  )
+interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
+  initialCart?: CartItem[];
+  initialDiscount?: number;
 }
 
-const customRender = (
+// This is our custom render function. It wraps the UI in a router
+// and a CartProvider, making it easy to test components that use them.
+export const renderWithRouterAndContext = (
   ui: ReactElement,
-  options?: Omit<RenderOptions, 'wrapper'>
-) => render(ui, { wrapper: AllTheProviders, ...options })
+  options: CustomRenderOptions = {}
+) => {
+  // Create mock functions for the cart context
+  const mockAddToCart = vi.fn();
+  const mockRemoveFromCart = vi.fn();
+  const mockUpdateQuantity = vi.fn();
+  const mockClearCart = vi.fn();
+  const mockSetSaleDiscount = vi.fn();
 
-export * from '@testing-library/react'
-export { customRender as render }
+  const { 
+    initialCart = [], 
+    initialDiscount = 0, 
+    ...renderOptions 
+  } = options;
+
+  // The value that will be provided to the context consumer
+  const providerValue: CartContextType = {
+    cart: initialCart,
+    saleDiscount: initialDiscount,
+    addToCart: mockAddToCart,
+    removeFromCart: mockRemoveFromCart,
+    updateQuantity: mockUpdateQuantity,
+    clearCart: mockClearCart,
+    setSaleDiscount: mockSetSaleDiscount,
+  };
+
+  const renderResult = render(
+    <BrowserRouter>
+      <CartContext.Provider value={providerValue}>
+        {ui}
+      </CartContext.Provider>
+    </BrowserRouter>,
+    renderOptions
+  );
+
+  return {
+    ...renderResult,
+    // Return the mock functions so they can be asserted against in tests
+    cartContext: {
+      addToCart: mockAddToCart,
+      removeFromCart: mockRemoveFromCart,
+      updateQuantity: mockUpdateQuantity,
+      clearCart: mockClearCart,
+      setSaleDiscount: mockSetSaleDiscount,
+    },
+  };
+};
+
+// Re-export everything from React Testing Library
+export * from '@testing-library/react';
+
