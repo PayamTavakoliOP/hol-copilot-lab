@@ -1268,3 +1268,150 @@ textarea:focus-visible {
     line-height: 1.6;
     margin-bottom: 1.5rem;
 }
+
+/* About Page Styles */
+.about-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2.5rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-light);
+}
+
+.about-container h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 2.5rem;
+    text-align: center;
+    color: var(--text-dark);
+    letter-spacing: -0.75px;
+}
+
+.about-section {
+    margin-bottom: 3rem;
+}
+
+.about-section h3 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    color: var(--text-dark);
+    letter-spacing: -0.5px;
+}
+
+.about-section p {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--text-medium);
+    margin-bottom: 1rem;
+}
+
+.contact-section .contact-info {
+    background: var(--bg-light);
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-light);
+}
+
+.contact-info p {
+    margin: 0.875rem 0;
+    font-size: 1.0625rem;
+    color: var(--text-dark);
+}
+
+.contact-info strong {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.bug-report-form {
+    margin-top: 1.5rem;
+}
+
+.bug-report-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.bug-report-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 1rem;
+}
+
+.bug-report-form input,
+.bug-report-form textarea {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 2px solid var(--border-light);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: all var(--transition-base);
+    background: white;
+    color: var(--text-dark);
+}
+
+.bug-report-form input:focus,
+.bug-report-form textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+}
+
+.bug-report-form textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.submit-bug-btn {
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    font-size: 1.0625rem;
+    box-shadow: var(--shadow-md);
+    width: 100%;
+}
+
+.submit-bug-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.submit-bug-btn:active {
+    transform: translateY(0);
+}
+
+.success-message {
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    border: 2px solid #10b981;
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+    color: #065f46;
+    font-weight: 600;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .about-container {
+        padding: 1.75rem;
+        margin: 1rem;
+    }
+
+    .about-container h2 {
+        font-size: 2rem;
+    }
+
+    .about-section h3 {
+        font-size: 1.5rem;
+    }
+}
