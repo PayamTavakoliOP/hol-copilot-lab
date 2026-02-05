@@ -13,17 +13,24 @@ describe('ProductService', () => {
         { id: '2', name: 'Orange', price: 2.49, reviews: [], inStock: true },
       ]
 
-      global.fetch = vi.fn()
-        .mockResolvedValueOnce({ ok: true, json: async () => mockProducts[0] })
-        .mockResolvedValueOnce({ ok: true, json: async () => mockProducts[1] })
-        .mockResolvedValueOnce({ ok: true, json: async () => null })
-        .mockResolvedValueOnce({ ok: true, json: async () => null })
+      // Mock fetch for all 14 products (4 original + 10 exotic)
+      global.fetch = vi.fn().mockImplementation((url: string) => {
+        if (url.includes('apple.json')) {
+          return Promise.resolve({ ok: true, json: async () => mockProducts[0] });
+        }
+        if (url.includes('orange.json')) {
+          return Promise.resolve({ ok: true, json: async () => mockProducts[1] });
+        }
+        return Promise.resolve({ ok: true, json: async () => ({ id: url, name: 'Product', price: 1, reviews: [], inStock: true }) });
+      });
 
       const products = await ProductService.fetchAll()
 
-      expect(products).toHaveLength(2)
-      expect(products[0].name).toBe('Apple')
-      expect(products[1].name).toBe('Orange')
+      expect(products.length).toBeGreaterThanOrEqual(2)
+      const apple = products.find(p => p.name === 'Apple');
+      const orange = products.find(p => p.name === 'Orange');
+      expect(apple).toBeDefined();
+      expect(orange).toBeDefined();
     })
 
     it('should throw ApiError when fetch fails', async () => {
@@ -37,17 +44,23 @@ describe('ProductService', () => {
     })
 
     it('should filter out null products', async () => {
-      global.fetch = vi.fn()
-        .mockResolvedValueOnce({ ok: true, json: async () => ({ id: '1', name: 'Apple', price: 1.99, reviews: [], inStock: true }) })
-        .mockResolvedValueOnce({ ok: true, json: async () => null })
-        .mockResolvedValueOnce({ ok: true, json: async () => undefined })
-        .mockResolvedValueOnce({ ok: true, json: async () => ({ id: '2', name: 'Orange', price: 2.49, reviews: [], inStock: true }) })
+      let callCount = 0;
+      global.fetch = vi.fn().mockImplementation(() => {
+        callCount++;
+        if (callCount === 1) return Promise.resolve({ ok: true, json: async () => ({ id: '1', name: 'Apple', price: 1.99, reviews: [], inStock: true }) });
+        if (callCount === 2) return Promise.resolve({ ok: true, json: async () => null });
+        if (callCount === 3) return Promise.resolve({ ok: true, json: async () => undefined });
+        if (callCount === 4) return Promise.resolve({ ok: true, json: async () => ({ id: '2', name: 'Orange', price: 2.49, reviews: [], inStock: true }) });
+        return Promise.resolve({ ok: true, json: async () => ({ id: `${callCount}`, name: `Product${callCount}`, price: 1, reviews: [], inStock: true }) });
+      });
 
       const products = await ProductService.fetchAll()
 
-      expect(products).toHaveLength(2)
-      expect(products[0].name).toBe('Apple')
-      expect(products[1].name).toBe('Orange')
+      const apple = products.find(p => p.name === 'Apple');
+      const orange = products.find(p => p.name === 'Orange');
+      expect(apple).toBeDefined();
+      expect(orange).toBeDefined();
+      expect(products.every(p => p !== null && p !== undefined)).toBe(true);
     })
   })
 
@@ -55,11 +68,12 @@ describe('ProductService', () => {
     it('should fetch product by id', async () => {
       const mockProduct = { id: '1', name: 'Apple', price: 1.99, reviews: [], inStock: true }
 
-      global.fetch = vi.fn()
-        .mockResolvedValueOnce({ ok: true, json: async () => mockProduct })
-        .mockResolvedValueOnce({ ok: true, json: async () => null })
-        .mockResolvedValueOnce({ ok: true, json: async () => null })
-        .mockResolvedValueOnce({ ok: true, json: async () => null })
+      global.fetch = vi.fn().mockImplementation((url: string) => {
+        if (url.includes('apple.json')) {
+          return Promise.resolve({ ok: true, json: async () => mockProduct });
+        }
+        return Promise.resolve({ ok: true, json: async () => ({ id: url, name: 'Product', price: 1, reviews: [], inStock: true }) });
+      });
 
       const product = await ProductService.fetchById('1')
 

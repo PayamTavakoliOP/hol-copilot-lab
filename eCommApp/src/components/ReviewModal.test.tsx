@@ -73,7 +73,7 @@ describe('ReviewModal', () => {
   it('should call onClose when the Escape key is pressed', () => {
     renderWithRouterAndContext(<ReviewModal product={mockProduct} onClose={mockOnClose} onSubmit={mockSubmit} />);
     
-    fireEvent.keyDown(screen.getByRole('dialog'), { key: 'Escape' });
+    fireEvent.keyDown(document, { key: 'Escape', code: 'Escape', keyCode: 27 });
     
     expect(mockOnClose).toHaveBeenCalledTimes(1);
   });
@@ -81,7 +81,7 @@ describe('ReviewModal', () => {
   it('should trap focus within the modal', () => {
     renderWithRouterAndContext(<ReviewModal product={mockProduct} onClose={mockOnClose} onSubmit={mockSubmit} />);
     
-    screen.getByRole('button', { name: 'Close review modal' });
+    const closeButton = screen.getByRole('button', { name: 'Close review modal' });
     screen.getByPlaceholderText('Your name');
     screen.getByPlaceholderText('Your review');
     screen.getAllByRole('radio');
