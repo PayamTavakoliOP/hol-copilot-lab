@@ -16,13 +16,14 @@ export interface Address {
 }
 
 export interface Review {
+    rating: number;
     author: string;
     comment: string;
     date: string;
 }
 
 export interface Product {
-    id?: string;
+    id: string;
     name: string;
     price: number;
     description?: string;

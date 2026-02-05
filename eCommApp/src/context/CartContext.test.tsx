@@ -5,21 +5,23 @@ import { Product } from '../types';
 
 // Mock product data
 const mockProduct1: Product = {
-  id: 1,
+  id: '1',
   name: 'Apple',
   price: 1.0,
   description: 'Fresh apple',
   image: '/apple.jpg',
-  nutritionFacts: { calories: 95, protein: 0, carbs: 25, fat: 0 }
+  reviews: [],
+  inStock: true
 };
 
 const mockProduct2: Product = {
-  id: 2,
+  id: '2',
   name: 'Orange',
   price: 1.2,
   description: 'Fresh orange',
   image: '/orange.jpg',
-  nutritionFacts: { calories: 62, protein: 1, carbs: 15, fat: 0 }
+  reviews: [],
+  inStock: true
 };
 
 const mockCartItem: CartItem = {
@@ -211,7 +213,7 @@ describe('CartContext', () => {
 
       // Act
       act(() => {
-        result.current.removeFromCart(999);
+        result.current.removeFromCart('999');
       });
 
       // Assert
@@ -303,7 +305,7 @@ describe('CartContext', () => {
 
       // Act
       act(() => {
-        result.current.updateQuantity(999, 5);
+        result.current.updateQuantity('999', 5);
       });
 
       // Assert

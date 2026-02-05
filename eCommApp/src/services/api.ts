@@ -1,6 +1,6 @@
 import { Product } from '../types'
 
-const PRODUCTS_PATH = import.meta.env.VITE_PRODUCTS_PATH || '/products'
+const PRODUCTS_PATH = (import.meta as unknown as { env: Record<string, string> }).env.VITE_PRODUCTS_PATH || '/products'
 
 export class ApiError extends Error {
   constructor(

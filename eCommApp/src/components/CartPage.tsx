@@ -49,11 +49,11 @@ const CartPage = () => {
                                             <h3>{item.name}</h3>
                                             <p>Price: ${item.price.toFixed(2)}</p>
                                             <div className="quantity-controls">
-                                                <button onClick={() => updateQuantity(item.id, item.quantity - 1)} aria-label={`Decrease quantity of ${item.name}`}>-</button>
+                                                <button onClick={() => updateQuantity(item.id!, item.quantity - 1)} aria-label={`Decrease quantity of ${item.name}`}>-</button>
                                                 <span>{item.quantity}</span>
-                                                <button onClick={() => updateQuantity(item.id, item.quantity + 1)} aria-label={`Increase quantity of ${item.name}`}>+</button>
+                                                <button onClick={() => updateQuantity(item.id!, item.quantity + 1)} aria-label={`Increase quantity of ${item.name}`}>+</button>
                                             </div>
-                                            <button onClick={() => removeFromCart(item.id)} className="remove-btn">Remove</button>
+                                            <button onClick={() => removeFromCart(item.id!)} className="remove-btn">Remove</button>
                                         </div>
                                     </article>
                                 ))}

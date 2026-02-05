@@ -14,7 +14,7 @@ describe('ProductService', () => {
       ]
 
       // Mock fetch for all 14 products (4 original + 10 exotic)
-      global.fetch = vi.fn().mockImplementation((url: string) => {
+      globalThis.fetch = vi.fn().mockImplementation((url: string) => {
         if (url.includes('apple.json')) {
           return Promise.resolve({ ok: true, json: async () => mockProducts[0] });
         }
@@ -34,7 +34,7 @@ describe('ProductService', () => {
     })
 
     it('should throw ApiError when fetch fails', async () => {
-      global.fetch = vi.fn().mockResolvedValue({
+      globalThis.fetch = vi.fn().mockResolvedValue({
         ok: false,
         status: 404,
         statusText: 'Not Found',
@@ -45,7 +45,7 @@ describe('ProductService', () => {
 
     it('should filter out null products', async () => {
       let callCount = 0;
-      global.fetch = vi.fn().mockImplementation(() => {
+      globalThis.fetch = vi.fn().mockImplementation(() => {
         callCount++;
         if (callCount === 1) return Promise.resolve({ ok: true, json: async () => ({ id: '1', name: 'Apple', price: 1.99, reviews: [], inStock: true }) });
         if (callCount === 2) return Promise.resolve({ ok: true, json: async () => null });
@@ -68,7 +68,7 @@ describe('ProductService', () => {
     it('should fetch product by id', async () => {
       const mockProduct = { id: '1', name: 'Apple', price: 1.99, reviews: [], inStock: true }
 
-      global.fetch = vi.fn().mockImplementation((url: string) => {
+      globalThis.fetch = vi.fn().mockImplementation((url: string) => {
         if (url.includes('apple.json')) {
           return Promise.resolve({ ok: true, json: async () => mockProduct });
         }
@@ -81,7 +81,7 @@ describe('ProductService', () => {
     })
 
     it('should return null when product not found', async () => {
-      global.fetch = vi.fn()
+      globalThis.fetch = vi.fn()
         .mockResolvedValue({ ok: true, json: async () => null })
 
       const product = await ProductService.fetchById('999')

@@ -10,8 +10,8 @@ const INITIAL_APPLE_QUANTITY = 2;
 const INITIAL_ORANGE_QUANTITY = 1;
 
 const mockProducts: Product[] = [
-  { id: 1, name: 'Apple', price: APPLE_PRICE, image: 'apple.png', description: '', reviews: [] },
-  { id: 2, name: 'Orange', price: ORANGE_PRICE, image: 'orange.png', description: '', reviews: [] },
+  { id: '1', name: 'Apple', price: APPLE_PRICE, image: 'apple.png', description: '', reviews: [], inStock: true },
+  { id: '2', name: 'Orange', price: ORANGE_PRICE, image: 'orange.png', description: '', reviews: [], inStock: true },
 ];
 
 // Factory function to create fresh mock cart for each test
@@ -87,7 +87,7 @@ describe('CartPage', () => {
     fireEvent.click(increaseButtons[0]); // Increase Apple quantity
 
     // Assert
-    expect(cartContext.updateQuantity).toHaveBeenCalledWith(1, INITIAL_APPLE_QUANTITY + 1);
+    expect(cartContext.updateQuantity).toHaveBeenCalledWith('1', INITIAL_APPLE_QUANTITY + 1);
   });
 
   it('should allow decreasing an item quantity', () => {
@@ -100,7 +100,7 @@ describe('CartPage', () => {
     fireEvent.click(decreaseButtons[0]); // Decrease Apple quantity
 
     // Assert
-    expect(cartContext.updateQuantity).toHaveBeenCalledWith(1, INITIAL_APPLE_QUANTITY - 1);
+    expect(cartContext.updateQuantity).toHaveBeenCalledWith('1', INITIAL_APPLE_QUANTITY - 1);
   });
 
   it('should allow removing an item from the cart', () => {
@@ -113,7 +113,7 @@ describe('CartPage', () => {
     fireEvent.click(removeButtons[1]); // Remove Orange
 
     // Assert
-    expect(cartContext.removeFromCart).toHaveBeenCalledWith(2);
+    expect(cartContext.removeFromCart).toHaveBeenCalledWith('2');
   });
 
   it('should open the checkout modal when "Checkout" is clicked', async () => {
@@ -154,7 +154,7 @@ describe('CartPage', () => {
     fireEvent.click(removeButton);
     
     // Assert
-    expect(cartContext.removeFromCart).toHaveBeenCalledWith(1);
+    expect(cartContext.removeFromCart).toHaveBeenCalledWith('1');
   });
 
   it('should handle decreasing quantity to zero', () => {
@@ -167,6 +167,6 @@ describe('CartPage', () => {
     fireEvent.click(decreaseButton);
     
     // Assert
-    expect(cartContext.updateQuantity).toHaveBeenCalledWith(1, 0);
+    expect(cartContext.updateQuantity).toHaveBeenCalledWith('1', 0);
   });
 });

@@ -16,8 +16,8 @@ describe('Header', () => {
 
   it('should display the correct number of items in the cart link', () => {
     const mockCart = [
-      { id: 1, name: 'Apple', price: 1, image: '', quantity: 2 },
-      { id: 2, name: 'Orange', price: 1.2, image: '', quantity: 1 },
+      { id: '1', name: 'Apple', price: 1, image: '', quantity: 2, reviews: [], inStock: true },
+      { id: '2', name: 'Orange', price: 1.2, image: '', quantity: 1, reviews: [], inStock: true },
     ];
     
     renderWithRouterAndContext(<Header />, { initialCart: mockCart });

@@ -1,7 +1,7 @@
 import { screen, fireEvent } from '@testing-library/react';
 import { renderWithRouterAndContext } from '../test/test-utils';
 import ProductsPage from './ProductsPage';
-import { vi } from 'vitest';
+import { vi, type Mock } from 'vitest';
 
 // Mock product data
 const mockProducts = [
@@ -10,18 +10,18 @@ const mockProducts = [
 ];
 
 beforeAll(() => {
-  global.fetch = vi.fn((url: string) => {
+  globalThis.fetch = vi.fn((url: string) => {
     const product = mockProducts.find(p => url.includes(p.name.toLowerCase()));
     return Promise.resolve({
       ok: true,
       json: () => Promise.resolve(product),
     });
-  }) as jest.Mock;
+  }) as unknown as typeof fetch;
 });
 
 describe('ProductsPage', () => {
   beforeEach(() => {
-    (fetch as jest.Mock).mockClear();
+    (fetch as Mock).mockClear();
   });
 
   it('should render a loading state initially', () => {
@@ -79,7 +79,7 @@ describe('ProductsPage', () => {
 
   it('should display an error message if fetching products fails', async () => {
     // Mock a failed fetch request
-    (fetch as jest.Mock).mockImplementationOnce(() => Promise.resolve({ ok: false }));
+    (fetch as Mock).mockImplementationOnce(() => Promise.resolve({ ok: false }));
 
     renderWithRouterAndContext(<ProductsPage />);
 

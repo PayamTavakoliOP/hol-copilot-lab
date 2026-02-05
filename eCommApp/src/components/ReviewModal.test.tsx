@@ -5,14 +5,15 @@ import { vi } from 'vitest';
 import { Product } from '../types';
 
 const mockProduct: Product = {
-  id: 1,
+  id: '1',
   name: 'Super Apple',
   price: 1.5,
   image: 'apple.png',
   description: 'A very super apple.',
   reviews: [
     { author: 'Jane Doe', comment: 'Amazing!', date: '2023-01-01', rating: 5 }
-  ]
+  ],
+  inStock: true
 };
 
 const mockSubmit = vi.fn();
