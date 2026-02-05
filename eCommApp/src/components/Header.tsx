@@ -11,6 +11,7 @@ const Header = () => {
             <nav aria-label="Main navigation">
                 <Link to="/">Home</Link>
                 <Link to="/products">Products</Link>
+                <Link to="/about">About Us</Link>
                 <Link to="/cart">
                     Cart {totalItems > 0 && `(${totalItems})`}
                 </Link>
