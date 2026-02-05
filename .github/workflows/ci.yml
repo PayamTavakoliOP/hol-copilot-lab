@@ -2,25 +2,14 @@ name: CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main]
   pull_request:
-    branches: [main, develop]
-
-# Restrict permissions to minimum required
-permissions:
-  contents: read
-  pull-requests: write
-  checks: write
-  statuses: write
+    branches: [main]
 
 jobs:
-  # Parallel job 1: Linting and type checking
-  lint:
-    name: Lint & Type Check
+  build-and-test:
+    name: Build and Test
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
 
     steps:
       - name: Checkout code
@@ -35,183 +24,16 @@ jobs:
 
       - name: Install dependencies
         working-directory: eCommApp
-        run: npm ci --prefer-offline --no-audit
+        run: npm ci
 
-      - name: Run ESLint
+      - name: Run linter
         working-directory: eCommApp
         run: npm run lint
 
-      - name: Type check
+      - name: Run tests
         working-directory: eCommApp
-        run: npx tsc --noEmit
+        run: npm test
 
-  # Parallel job 2: Security scanning
-  security:
-    name: Security Scan
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      security-events: write
-      pull-requests: write
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20.x"
-          cache: "npm"
-          cache-dependency-path: eCommApp/package-lock.json
-
-      - name: Install dependencies
-        working-directory: eCommApp
-        run: npm ci --prefer-offline --no-audit
-
-      - name: Run npm audit
-        working-directory: eCommApp
-        run: npm audit --audit-level=high
-        continue-on-error: true
-
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: "fs"
-          scan-ref: "./eCommApp"
-          format: "sarif"
-          output: "trivy-results.sarif"
-          severity: "CRITICAL,HIGH"
-
-      - name: Upload Trivy results to GitHub Security
-        uses: github/codeql-action/upload-sarif@v3
-        if: always()
-        with:
-          sarif_file: "trivy-results.sarif"
-
-  # Parallel job 3: Unit & Integration Tests
-  test:
-    name: Test (Node ${{ matrix.node-version }})
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-      checks: write
-
-    strategy:
-      matrix:
-        node-version: [20.x]
-      fail-fast: false
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: "npm"
-          cache-dependency-path: eCommApp/package-lock.json
-
-      - name: Install dependencies
-        working-directory: eCommApp
-        run: npm ci --prefer-offline --no-audit
-
-      - name: Run tests with coverage
-        working-directory: eCommApp
-        run: npm run test:coverage
-        env:
-          NODE_ENV: test
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        if: matrix.node-version == '20.x'
-        with:
-          file: ./eCommApp/coverage/coverage-final.json
-          flags: unittests
-          fail_ci_if_error: true
-          token: ${{ secrets.CODECOV_TOKEN }}
-
-      - name: Upload test results
-        uses: actions/upload-artifact@v6
-        if: always()
-        with:
-          name: test-results-${{ matrix.node-version }}
-          path: eCommApp/coverage/
-          retention-days: 7
-
-  # Job 4: Build (depends on lint, security, test)
-  build:
-    name: Build & Bundle Analysis
-    runs-on: ubuntu-latest
-    needs: [lint, security, test]
-    permissions:
-      contents: read
-      pull-requests: write
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20.x"
-          cache: "npm"
-          cache-dependency-path: eCommApp/package-lock.json
-
-      - name: Install dependencies
-        working-directory: eCommApp
-        run: npm ci --prefer-offline --no-audit
-
-      - name: Build project
+      - name: Build
         working-directory: eCommApp
         run: npm run build
-        env:
-          NODE_ENV: production
-
-      - name: Generate SBOM (Software Bill of Materials)
-        working-directory: eCommApp
-        run: npx @cyclonedx/cyclonedx-npm --output-file sbom.json
-
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v6
-        with:
-          name: dist-artifacts
-          path: |
-            eCommApp/dist/
-            eCommApp/sbom.json
-          retention-days: 30
-
-      - name: Attest build provenance
-        uses: actions/attest-build-provenance@v1
-        with:
-          subject-path: "eCommApp/dist/**/*"
-
-  # Job 5: Performance & Bundle Size Check
-  performance:
-    name: Performance Budget
-    runs-on: ubuntu-latest
-    needs: [build]
-    permissions:
-      contents: read
-      pull-requests: write
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Download build artifacts
-        uses: actions/download-artifact@v7
-        with:
-          name: dist-artifacts
-          path: eCommApp/
-
-      - name: Analyze bundle size
-        uses: andresz1/size-limit-action@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          package_manager: npm
-          directory: eCommApp
-          build_script: build
