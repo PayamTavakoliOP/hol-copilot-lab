@@ -13,7 +13,6 @@ const AboutPage = () => {
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         // In a real app, this would send the bug report to a server
-        console.log('Bug report submitted:', bugReport);
         setSubmitted(true);
         // Reset form after 3 seconds
         setTimeout(() => {

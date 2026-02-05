@@ -13,9 +13,7 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
-    "test:coverage": "vitest run --coverage",
-    "size": "size-limit",
-    "size:why": "size-limit --why"
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -23,7 +21,6 @@
     "react-router-dom": "^6.15.0"
   },
   "devDependencies": {
-    "@size-limit/file": "^11.0.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
@@ -42,7 +39,6 @@
     "husky": "^8.0.3",
     "jsdom": "^25.0.1",
     "prettier": "^3.1.0",
-    "size-limit": "^11.0.1",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
     "vitest": "^4.0.18"
