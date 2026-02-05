@@ -7,16 +7,16 @@ const HomePage = () => {
     const [memeUrl, setMemeUrl] = useState<string>('');
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        loadMeme();
-    }, []);
-
     const loadMeme = async () => {
         setLoading(true);
         const url = await getRandomMeme();
         setMemeUrl(url);
         setLoading(false);
     };
+
+    useEffect(() => {
+        void loadMeme();
+    }, []);
 
     return (
         <div className="app">
