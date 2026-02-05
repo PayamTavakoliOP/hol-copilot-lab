@@ -54,10 +54,17 @@ const CheckoutModal = ({ isOpen, onClose }: CheckoutModalProps) => {
     }
 
     return (
-        <div className="modal-backdrop" onClick={onClose} role="presentation">
+        <div 
+            className="modal-backdrop" 
+            onClick={onClose} 
+            onKeyDown={(e) => e.key === 'Escape' && onClose()}
+            role="presentation"
+            tabIndex={-1}
+        >
             <div
                 className="modal-content"
                 onClick={(e) => e.stopPropagation()}
+                onKeyDown={(e) => e.stopPropagation()}
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="checkout-modal-title"

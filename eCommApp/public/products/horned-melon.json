@@ -1,0 +1,10 @@
+{
+    "id": "7",
+    "name": "Horned Melon",
+    "description": "Kiwano from New Zealand, spiky orange shell with lime-green jelly interior",
+    "price": 6.75,
+    "image": "horned-melon.svg",
+    "category": "fruits",
+    "inStock": true,
+    "reviews": []
+}

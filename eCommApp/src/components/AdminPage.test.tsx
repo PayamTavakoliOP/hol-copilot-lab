@@ -1,8 +1,6 @@
 import { screen, fireEvent } from '@testing-library/react';
 import { renderWithRouterAndContext } from '../test/test-utils';
 import AdminPage from './AdminPage';
-import { CartContext } from '../context/CartContext';
-import { vi } from 'vitest';
 
 describe('AdminPage', () => {
   it('should apply a valid discount when Set Sale button is clicked', () => {

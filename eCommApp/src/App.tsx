@@ -1,14 +1,18 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import ProductsPage from './components/ProductsPage';
 import LoginPage from './components/LoginPage';
 import AdminPage from './components/AdminPage';
 import CartPage from './components/CartPage';
+import MemeButton from './components/MemeButton';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { CartProvider } from './context/CartContext';
 import './App.css';
 
 function App() {
+    const location = useLocation();
+    const isHomePage = location.pathname === '/';
+
     return (
         <ErrorBoundary>
             <CartProvider>
@@ -22,6 +26,7 @@ function App() {
                     <Route path="/admin" element={<AdminPage />} />
                     <Route path="/cart" element={<CartPage />} />
                 </Routes>
+                {!isHomePage && <MemeButton />}
             </CartProvider>
         </ErrorBoundary>
     );

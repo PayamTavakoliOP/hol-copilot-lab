@@ -81,11 +81,11 @@ describe('ReviewModal', () => {
   it('should trap focus within the modal', () => {
     renderWithRouterAndContext(<ReviewModal product={mockProduct} onClose={mockOnClose} onSubmit={mockSubmit} />);
     
-    const closeButton = screen.getByRole('button', { name: 'Close review modal' });
-    const nameInput = screen.getByPlaceholderText('Your name');
-    const reviewTextarea = screen.getByPlaceholderText('Your review');
-    const ratingStars = screen.getAllByRole('radio');
-    const submitButton = screen.getByRole('button', { name: 'Submit Review' });
+    screen.getByRole('button', { name: 'Close review modal' });
+    screen.getByPlaceholderText('Your name');
+    screen.getByPlaceholderText('Your review');
+    screen.getAllByRole('radio');
+    screen.getByRole('button', { name: 'Submit Review' });
 
     // The close button should be focused first by default
     expect(closeButton).toHaveFocus();

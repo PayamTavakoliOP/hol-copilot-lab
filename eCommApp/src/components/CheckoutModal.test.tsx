@@ -57,7 +57,7 @@ describe('CheckoutModal', () => {
     renderWithRouterAndContext(<CheckoutModal isOpen={true} onClose={mockOnClose} />);
     
     const continueButton = screen.getByRole('button', { name: 'Continue shopping after successful checkout' });
-    const closeButton = screen.getByRole('button', { name: 'Close' });
+    screen.getByRole('button', { name: 'Close' });
 
     // The continue button should be focused first as it's the primary action
     expect(continueButton).toHaveFocus();

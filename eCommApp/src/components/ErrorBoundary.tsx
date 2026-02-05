@@ -34,7 +34,7 @@ export class ErrorBoundary extends Component<Props, State> {
         <div className="error-boundary">
           <div className="error-boundary-content">
             <h1>Oops! Something went wrong</h1>
-            <p>We're sorry for the inconvenience. Please try refreshing the page.</p>
+            <p>We&apos;re sorry for the inconvenience. Please try refreshing the page.</p>
             {this.state.error && (
               <details style={{ marginTop: '1rem' }}>
                 <summary>Error details</summary>

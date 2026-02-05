@@ -1,0 +1,10 @@
+{
+    "id": "12",
+    "name": "Salak (Snake Fruit)",
+    "description": "Indonesian snake-skinned fruit, crisp apple-like texture with honey sweetness",
+    "price": 9.50,
+    "image": "salak.svg",
+    "category": "fruits",
+    "inStock": true,
+    "reviews": []
+}

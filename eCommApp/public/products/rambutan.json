@@ -1,0 +1,10 @@
+{
+    "id": "6",
+    "name": "Rambutan",
+    "description": "Hairy red fruit from Thailand, sweet translucent flesh similar to lychee",
+    "price": 12.00,
+    "image": "rambutan.svg",
+    "category": "fruits",
+    "inStock": true,
+    "reviews": []
+}

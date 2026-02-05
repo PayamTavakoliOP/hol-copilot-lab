@@ -8,7 +8,6 @@ const APPLE_PRICE = 1.0;
 const ORANGE_PRICE = 1.2;
 const INITIAL_APPLE_QUANTITY = 2;
 const INITIAL_ORANGE_QUANTITY = 1;
-const SALE_DISCOUNT = 0.1;
 
 const mockProducts: Product[] = [
   { id: 1, name: 'Apple', price: APPLE_PRICE, image: 'apple.png', description: '', reviews: [] },

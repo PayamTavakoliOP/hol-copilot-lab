@@ -1,4 +1,4 @@
-import { screen, fireEvent, findByText, waitFor } from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/react';
 import { renderWithRouterAndContext } from '../test/test-utils';
 import LoginPage from './LoginPage';
 import { vi } from 'vitest';

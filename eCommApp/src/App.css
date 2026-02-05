@@ -409,6 +409,21 @@ textarea:focus-visible {
   cursor: pointer;
   display: block;
   overflow: hidden;
+  perspective: 1000px;
+  position: relative;
+}
+
+.product-image-button::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  height: 20px;
+  background: radial-gradient(ellipse at center, rgba(16, 185, 129, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(8px);
 }
 
 .product-image {
@@ -418,11 +433,23 @@ textarea:focus-visible {
   background: linear-gradient(135deg, var(--bg-light) 0%, var(--bg-gray) 100%);
   transition: all var(--transition-slow);
   display: block;
+  animation: slowSpin 20s linear infinite;
+  transform-style: preserve-3d;
+}
+
+@keyframes slowSpin {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
 }
 
 .product-image-button:hover .product-image,
 .product-card:hover .product-image {
-  transform: scale(1.08);
+  animation-play-state: paused;
+  transform: rotateY(0deg) scale(1.08);
 }
 
 .product-info {
@@ -1267,4 +1294,241 @@ textarea:focus-visible {
     font-size: 1.125rem;
     line-height: 1.6;
     margin-bottom: 1.5rem;
+}
+
+/* Meme Button Styles */
+.meme-fab {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(238, 90, 111, 0.4);
+    transition: all var(--transition-base);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse 2s infinite;
+}
+
+.meme-fab:hover {
+    transform: scale(1.1) rotate(10deg);
+    box-shadow: 0 6px 30px rgba(238, 90, 111, 0.6);
+}
+
+.meme-fab:active {
+    transform: scale(0.95);
+}
+
+/* Meme Modal Styles */
+.meme-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(17, 24, 39, 0.75);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+    animation: fadeIn 0.2s ease;
+    padding: 1rem;
+}
+
+.meme-modal-content {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 800px;
+    width: 100%;
+    max-height: 90vh;
+    overflow: auto;
+    box-shadow: var(--shadow-2xl);
+    animation: slideUp 0.3s ease;
+    position: relative;
+}
+
+.meme-modal-title {
+    font-size: 2rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--text-dark);
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 50%, #f093fb 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.meme-close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--bg-gray);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-medium);
+}
+
+.meme-close-button:hover {
+    background: var(--error);
+    color: white;
+    transform: rotate(90deg);
+}
+
+.meme-image-container {
+    background: var(--bg-light);
+    border-radius: 12px;
+    padding: 1rem;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.meme-image {
+    max-width: 100%;
+    max-height: 600px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    object-fit: contain;
+}
+
+.meme-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-medium);
+}
+
+.meme-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--border-light);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.meme-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    color: var(--error);
+}
+
+.meme-retry-btn,
+.meme-refresh-btn {
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    padding: 0.875rem 1.75rem;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    font-size: 1rem;
+    box-shadow: var(--shadow-md);
+}
+
+.meme-retry-btn:hover,
+.meme-refresh-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.meme-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+}
+
+/* Daily Meme Section on Home Page */
+.daily-meme-section {
+    margin: 2rem auto;
+    max-width: 700px;
+    background: white;
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+}
+
+.daily-meme-section h3 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+}
+
+.daily-meme-image {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    max-height: 400px;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 1rem;
+}
+
+.meme-loading {
+    padding: 3rem;
+    font-size: 1.25rem;
+    color: var(--gray-600);
+    font-style: italic;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .meme-fab {
+        bottom: 1.5rem;
+        right: 1.5rem;
+        width: 56px;
+        height: 56px;
+        font-size: 1.75rem;
+    }
+
+    .meme-modal-content {
+        padding: 1.5rem;
+    }
+
+    .meme-modal-title {
+        font-size: 1.5rem;
+    }
+
+    .meme-image-container {
+        min-height: 300px;
+    }
+
+    .daily-meme-section {
+        margin: 2rem 1rem;
+        padding: 1.5rem;
+    }
+
+    .daily-meme-section h3 {
+        font-size: 1.5rem;
+    }
+
+    .daily-meme-image {
+        max-height: 400px;
+    }
 }

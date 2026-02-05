@@ -2,8 +2,7 @@ import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
-import { CartContext, CartItem } from '../context/CartContext';
-import CheckoutModal from './CheckoutModal';
+import { CartContext } from '../context/CartContext';
 
 const AdminPage = () => {
     const [inputValue, setInputValue] = useState<string>('0');

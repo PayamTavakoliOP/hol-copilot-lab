@@ -1,13 +1,11 @@
 import { useContext, useState } from 'react';
 import Header from './Header';
 import Footer from './Footer';
-import { CartContext, CartItem } from '../context/CartContext';
+import { CartContext } from '../context/CartContext';
 import CheckoutModal from './CheckoutModal';
 
 const CartPage = () => {
     const [isCheckingOut, setIsCheckingOut] = useState(false);
-    const [orderProcessed, setOrderProcessed] = useState(false);
-    const [processedItems, setProcessedItems] = useState<CartItem[]>([]);
     const cartContext = useContext(CartContext);
 
     if (!cartContext) {

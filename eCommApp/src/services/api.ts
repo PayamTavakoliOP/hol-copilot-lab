@@ -14,7 +14,22 @@ export class ApiError extends Error {
 }
 
 export class ProductService {
-  private static productFiles = ['apple.json', 'grapes.json', 'orange.json', 'pear.json']
+  private static productFiles = [
+    'apple.json', 
+    'grapes.json', 
+    'orange.json', 
+    'pear.json',
+    'dragonfruit.json',
+    'rambutan.json',
+    'horned-melon.json',
+    'durian.json',
+    'mangosteen.json',
+    'buddha-hand.json',
+    'jabuticaba.json',
+    'salak.json',
+    'cherimoya.json',
+    'ackee.json'
+  ]
 
   static async fetchAll(): Promise<Product[]> {
     try {

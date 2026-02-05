@@ -1,0 +1,10 @@
+{
+    "id": "8",
+    "name": "Durian",
+    "description": "King of fruits from Malaysia, creamy custard-like flesh with pungent aroma",
+    "price": 24.50,
+    "image": "durian.svg",
+    "category": "fruits",
+    "inStock": true,
+    "reviews": []
+}

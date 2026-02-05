@@ -1,0 +1,10 @@
+{
+    "id": "5",
+    "name": "Dragon Fruit",
+    "description": "Vibrant pink pitaya from Vietnam, sweet white flesh with black seeds",
+    "price": 8.50,
+    "image": "dragonfruit.svg",
+    "category": "fruits",
+    "inStock": true,
+    "reviews": []
+}

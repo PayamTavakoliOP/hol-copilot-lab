@@ -36,7 +36,6 @@ const LoginPage = () => {
                                 name="username"
                                 value={username}
                                 onChange={e => setUsername(e.target.value)}
-                                autoFocus
                                 required
                                 aria-required="true"
                                 aria-invalid={loginError ? 'true' : 'false'}

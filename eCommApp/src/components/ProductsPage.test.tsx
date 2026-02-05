@@ -16,12 +16,12 @@ beforeAll(() => {
       ok: true,
       json: () => Promise.resolve(product),
     });
-  }) as any;
+  }) as jest.Mock;
 });
 
 describe('ProductsPage', () => {
   beforeEach(() => {
-    (fetch as any).mockClear();
+    (fetch as jest.Mock).mockClear();
   });
 
   it('should render a loading state initially', () => {
@@ -79,7 +79,7 @@ describe('ProductsPage', () => {
 
   it('should display an error message if fetching products fails', async () => {
     // Mock a failed fetch request
-    (fetch as any).mockImplementationOnce(() => Promise.resolve({ ok: false }));
+    (fetch as jest.Mock).mockImplementationOnce(() => Promise.resolve({ ok: false }));
 
     renderWithRouterAndContext(<ProductsPage />);
 

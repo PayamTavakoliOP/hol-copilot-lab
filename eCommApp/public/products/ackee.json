@@ -1,0 +1,10 @@
+{
+    "id": "14",
+    "name": "Ackee",
+    "description": "Jamaican national fruit, buttery scrambled egg-like flesh (must be fully ripe)",
+    "price": 16.75,
+    "image": "ackee.svg",
+    "category": "fruits",
+    "inStock": true,
+    "reviews": []
+}
