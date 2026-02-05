@@ -1,14 +1,14 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { Product, Review } from '../types';
 import Header from './Header';
 import Footer from './Footer';
 import ReviewModal from './ReviewModal';
 import { CartContext } from '../context/CartContext';
+import { useProducts } from '../hooks/useProducts';
 
 const ProductsPage = () => {
-    const [products, setProducts] = useState<Product[]>([]);
-    const [loading, setLoading] = useState(true);
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const { products, loading, error } = useProducts();
     const cartContext = useContext(CartContext);
 
     if (!cartContext) {
@@ -17,42 +17,12 @@ const ProductsPage = () => {
 
     const { addToCart } = cartContext;
 
-    useEffect(() => {
-        const loadProducts = async () => {
-            try {
-                const productFiles = [
-                    'apple.json',
-                    'grapes.json',
-                    'orange.json',
-                    'pear.json'
-                ];
-                const productPromises = productFiles.map(async (file) => {
-                    const response = await fetch(`products/${file}`);
-                    if (!response.ok) throw new Error(`Failed to load ${file}`);
-                    return await response.json();
-                });
-                const loadedProducts = await Promise.all(productPromises);
-                setProducts(loadedProducts.filter(p => p)); // Filter out any nulls from failed fetches
-            } catch (error) {
-                console.error('Error loading products:', error);
-                setProducts([]); // Clear products on error
-            } finally {
-                setLoading(false);
-            }
-        };
-        loadProducts();
-    }, []);
-
     const handleReviewSubmit = (review: Review) => {
         if (selectedProduct) {
             const updatedProduct = {
                 ...selectedProduct,
                 reviews: [review, ...selectedProduct.reviews],
             };
-            const updatedProducts = products.map(p =>
-                p.id === updatedProduct.id ? updatedProduct : p
-            );
-            setProducts(updatedProducts);
             setSelectedProduct(updatedProduct);
         }
     };
@@ -75,8 +45,13 @@ const ProductsPage = () => {
             <main id="main-content" className="main-content">
                 <div className="products-container">
                     <h2>Our Products</h2>
-                    {products.length === 0 && !loading ? (
-                        <p>Error loading products</p>
+                    {error ? (
+                        <div className="error-message" role="alert">
+                            <p>{error}</p>
+                            <p>Please try refreshing the page.</p>
+                        </div>
+                    ) : products.length === 0 && !loading ? (
+                        <p>No products available</p>
                     ) : (
                         <div className="products-grid">
                             {products.map((product) => (

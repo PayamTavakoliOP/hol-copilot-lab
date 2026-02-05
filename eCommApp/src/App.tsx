@@ -4,23 +4,26 @@ import ProductsPage from './components/ProductsPage';
 import LoginPage from './components/LoginPage';
 import AdminPage from './components/AdminPage';
 import CartPage from './components/CartPage';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { CartProvider } from './context/CartContext';
 import './App.css';
 
 function App() {
     return (
-        <CartProvider>
-            <a href="#main-content" className="skip-link">
-                Skip to main content
-            </a>
-            <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/products" element={<ProductsPage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/admin" element={<AdminPage />} />
-                <Route path="/cart" element={<CartPage />} />
-            </Routes>
-        </CartProvider>
+        <ErrorBoundary>
+            <CartProvider>
+                <a href="#main-content" className="skip-link">
+                    Skip to main content
+                </a>
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/products" element={<ProductsPage />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/admin" element={<AdminPage />} />
+                    <Route path="/cart" element={<CartPage />} />
+                </Routes>
+            </CartProvider>
+        </ErrorBoundary>
     );
 }
 

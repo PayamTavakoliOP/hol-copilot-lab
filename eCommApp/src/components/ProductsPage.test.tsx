@@ -83,7 +83,9 @@ describe('ProductsPage', () => {
 
     renderWithRouterAndContext(<ProductsPage />);
 
-    // Check for the error message
-    expect(await screen.findByText('Error loading products')).toBeInTheDocument();
+    // Check for the error message - now using the error-message role
+    const errorMessage = await screen.findByRole('alert');
+    expect(errorMessage).toBeInTheDocument();
+    expect(errorMessage).toHaveTextContent('Please try refreshing the page');
   });
 });
