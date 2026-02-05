@@ -27,6 +27,7 @@ jobs:
           languages: javascript
           # Analyze TypeScript/JavaScript files in the eCommApp directory
           config-file: ./.github/codeql/codeql-config.yml
+          disable-default-config: true
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
